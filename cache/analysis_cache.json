@@ -1,0 +1,14 @@
+{
+  "db10e1b4e2e813a4ea53214f3dbcdbaf5bea8e0e708fd40ce811234fe45481a1": {
+    "timestamp": "2026-06-12T15:48:32.775601Z",
+    "report": "📊 미국 증시 뉴스 분석 보고서\n============================================================\n작성일: 2026-06-13 00:48:32\n캐시 사용: 아니요\n\n📊 주요 뉴스 5가지\n---\n1. [Business Insider] It's TACO time (again): Stocks surge after Trump cancels Iran strikes\n   요약: 주식 시장이 급등하며 국제 정세 변화에 따른 영향을 받음\n\n2. [TechRadar] A knee-jerk reaction or something more? Nvidia's market cap dropped by almost $330 billion in 24 hours as the AI giant reeled from Broadcom's poor guidance\n   요약: Nvidia의 시가 총액이 24시간 동안 $3300억 가량 하락하며 인공지능 기업들의 실적에 대한 기대감이 하락함\n\n3. [Yahoo Entertainment] SpaceX IPO live updates: SpaceX IPO set to make record debut as Dow, S&P 500, Nasdaq rise\n   요약: SpaceX의 시장 상장이 기대되며 다우존스, S&P 500, 나스닥 지수도 상승함\n\n4. [Yahoo Entertainment] Stock market today: Dow, S&P 500, Nasdaq rise in wait for historic SpaceX debut amid hopes for Iran-US peace\n   요약: 다우존스, S&P 500, 나스닥 지수가 상승하며 SpaceX의 상장을 기다리며 미국-이란 평화 희망도 함께 상승함\n\n5. [Yahoo Entertainment] Is Harmony Biosciences Holdings, Inc. (HRMY) A Good Stock To Buy Now?\n   요약: Harmony Biosciences Holdings, Inc. 주식에 대한 긍정적인 투자 논란과 관심이 증가함\n\n💡 시장 분석 및 투자 인사이트\n---\n미국 증시는 국제 정세 변화와 기업 실적에 따라 큰 변동을 보이고 있으며, 주식 상장과 관련된 이슈들이 투자자들에게 큰 관심을 끌고 있음.\n\n⚠️ 리스크 요소\n---\n정치적 불안과 국제 갈등으로 인한 시장 변동성, 기업의 실적 부진에 따른 주식가격 하락 가능성\n\n🎯 기회 요소\n---\n신규 기업의 상장 및 성장 가능성, 긍정적인 투자 논란으로 인한 주식 상승 가능성\n\n💼 투자 전략 제언\n---\n투자시에는 정확한 리서치와 신중한 분석을 통해 리스크를 최소화하고 기회를 포착하는 것이 중요함.\n\n------------------------------------------------------------\n⚠️ 리스크 및 기회 평가\n⚠️ 리스크 요소\n---\n- 정치적 불안과 국제 갈등으로 인한 시장 변동성: 미국 증시는 국제 정세 변화에 민감하게 반응하므로 정치적 불안과 국제 갈등으로 인한 예상치 못한 시장 변동성이 주식 시장을 위협할 수 있음.\n- 기업의 실적 부진에 따른 주식가격 하락 가능성: 기업의 실적이 예상에 못 미치거나 부진할 경우 주식가격이 하락할 수 있어 투자자들은 실적 발표를 주의깊게 살펴야 함.\n\n🎯 기회 요소\n---\n- 신규 기업의 상장 및 성장 가능성: 새로운 기업의 상장 및 성장 가능성은 향후 주식 시장에 긍정적인 영향을 미칠 수 있으며, 투자자들은 신규 기업의 동향을 주시해야 함.\n- 긍정적인 투자 논란으로 인한 주식 상승 가능성: 투자자들 사이에서 긍정적인 투자 논란이 확산될 경우 해당 기업의 주식가격이 상승할 수 있으므로 투자자들은 관련 논란을 주의깊게 살펴야 함.\n\n------------------------------------------------------------\n🧠 LLM 토큰 사용 요약\n- prompt_tokens: 1816\n- completion_tokens: 1110\n- total_tokens: 2926\n",
+    "metadata": {
+      "llm_usage": {
+        "prompt_tokens": 1816,
+        "completion_tokens": 1110,
+        "total_tokens": 2926
+      },
+      "cache_hit": false
+    }
+  }
+}

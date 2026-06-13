@@ -1,0 +1,11 @@
+.env
+# Byte-compiled / cache
+__pycache__/
+.pytest_cache/
+
+# Virtual env
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
