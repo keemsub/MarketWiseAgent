@@ -12,36 +12,42 @@ from config.settings import DOUBLE_SEPARATOR, SEPARATOR, PREVIEW_LENGTH
 
 
 class NewsCollectorAgent:
+    """Collect U.S. market news articles and validate the API response."""
+
     def collect(self):
+        """Fetch news articles from NewsAPI and return the raw list."""
         print("\n📰 미국 증시 뉴스 수집 중...\n")
         articles = get_us_market_news()
 
         if articles is None:
-            print("❌ 뉴스 수집에 실패했습니다.")
+            print("뉴스 수집에 실패했습니다.")
             print("   - NEWSAPI_KEY가 유효한지 확인해주세요.")
             print("   - https://newsapi.org에서 무료 API 키를 발급받으세요.")
             return None
 
         if len(articles) == 0:
-            print("❌ 뉴스 기사 검색 결과가 없습니다.")
+            print("뉴스 기사 검색 결과가 없습니다.")
             print("   - 검색 쿼리 또는 날짜 범위를 확인해주세요.")
             print("   - 최근 뉴스가 없을 수 있습니다.")
             return None
 
-        print(f"✅ {len(articles)}개의 뉴스 기사를 수집했습니다.\n")
+        print(f"{len(articles)}개의 뉴스 기사를 수집했습니다.\n")
         return articles
 
 
 class NewsSanitizerAgent:
+    """Sanitize and validate collected news articles."""
+
     def sanitize(self, articles):
+        """Validate article structure and remove invalid or malformed news items."""
         valid, reason = validate_articles(articles)
         if not valid:
-            print(f"❌ 뉴스 검증 실패: {reason}")
+            print(f"뉴스 검증 실패: {reason}")
             return None
 
         sanitized, warnings = sanitize_articles(articles)
         if warnings:
-            print("⚠️ 뉴스 데이터 정제 경고:")
+            print("뉴스 데이터 정제 경고:")
             for warning in warnings:
                 print(f"- {warning}")
             print('')
@@ -50,27 +56,36 @@ class NewsSanitizerAgent:
 
 
 class MarketAnalystAgent:
+    """Run the main LLM analysis process on sanitized news articles."""
+
     def analyze(self, articles):
-        print("🤖 시장 분석 에이전트 실행 중...\n")
+        """Summarize news and generate investment insights using the AI analyzer."""
+        print("시장 분석 에이전트 실행 중...\n")
         result = summarize_news_with_insight(articles)
         if not result:
-            print("❌ 시장 분석에 실패했습니다.")
+            print("시장 분석에 실패했습니다.")
             return None
         return result
 
 
 class RiskAssessorAgent:
+    """Evaluate risk and opportunity based on the market analysis output."""
+
     def assess(self, analysis_text):
-        print("⚖️ 리스크 분석 에이전트 실행 중...\n")
+        """Use a second LLM prompt to extract risk/opportunity summaries."""
+        print("리스크 분석 에이전트 실행 중...\n")
         result = assess_risk_and_opportunity(analysis_text)
         if not result:
-            print("❌ 리스크/기회 평가에 실패했습니다.")
+            print("리스크/기회 평가에 실패했습니다.")
             return None
         return result
 
 
 class ReportGeneratorAgent:
+    """Compose a final formatted report from analysis and risk summaries."""
+
     def compose(self, analysis_text, risk_text, cache_hit, token_summary):
+        """Build the report text that will be saved and optionally emailed."""
         generated_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         cache_note = '예' if cache_hit else '아니요'
         prompt_tokens = token_summary.get('prompt_tokens', 0)
@@ -96,6 +111,8 @@ class ReportGeneratorAgent:
 
 
 class LLMCostTracker:
+    """Track LLM token usage across analysis and risk assessment calls."""
+
     def __init__(self):
         self.prompt_tokens = 0
         self.completion_tokens = 0
@@ -118,7 +135,7 @@ class LLMCostTracker:
 
 
 class USMarketNewsAgent:
-    """미국 증시 뉴스 분석 Agent 클래스"""
+    """Orchestrates the full U.S. market news analysis workflow."""
 
     def __init__(self):
         self.articles = None
@@ -134,6 +151,7 @@ class USMarketNewsAgent:
         self.report_generator = ReportGeneratorAgent()
 
     def fetch_news(self):
+        """Trigger news collection and return whether articles were found."""
         self.articles = self.collector.collect()
         return bool(self.articles)
 
@@ -163,8 +181,9 @@ class USMarketNewsAgent:
         return graph.compile()
 
     def analyze_news(self):
+        """Sanitize, cache-check, and analyze news articles using the AI workflow."""
         if not self.articles:
-            print('❌ 분석할 뉴스가 없습니다.')
+            print('분석할 뉴스가 없습니다.')
             return False
 
         news_items = self.sanitizer.sanitize(self.articles)
@@ -186,7 +205,7 @@ class USMarketNewsAgent:
         analysis_result = pipeline_result.get('analysis_result')
         risk_result = pipeline_result.get('risk_result')
         if not analysis_result or not risk_result:
-            print('❌ 분석 또는 리스크 평가에 실패했습니다.')
+            print('분석 또는 리스크 평가에 실패했습니다.')
             return False
 
         self.cost_tracker.add(analysis_result.get('usage'))
@@ -209,7 +228,7 @@ class USMarketNewsAgent:
 
     def save_result(self):
         if not self.analysis:
-            print('❌ 저장할 분석 결과가 없습니다.')
+            print('저장할 분석 결과가 없습니다.')
             return False
 
         yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
@@ -220,36 +239,31 @@ class USMarketNewsAgent:
             with open(self.output_file, 'w', encoding='utf-8') as f:
                 f.write(self.analysis)
 
-            print(f"\n💾 결과가 '{self.output_file}'에 저장되었습니다.")
+            print(f"\n결과가 '{self.output_file}'에 저장되었습니다.")
             return True
         except Exception as e:
-            print(f'❌ 파일 저장 실패: {e}')
+            print(f'파일 저장 실패: {e}')
             return False
 
     def send_to_email_message(self):
+        """Send the full analysis report by email using the configured SMTP settings."""
         if not self.analysis or not self.output_file:
-            print('❌ 전송할 분석 결과나 파일이 없습니다.')
+            print('전송할 분석 결과나 파일이 없습니다.')
             return False
 
-        print('\n📧 이메일로 전송 중...\n')
+        print('\n이메일로 전송 중...\n')
 
         yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
-        message_preview = (
-            self.analysis[:PREVIEW_LENGTH] + '\n...(전체는 다음 메시지를 확인하세요.)\n'
-            if len(self.analysis) > PREVIEW_LENGTH
-            else self.analysis
-        )
-
         message = (
-            f'📊 {yesterday} 미국 증시 뉴스 분석 보고서\n\n'
-            f'{message_preview}'
+            f'{yesterday} 미국 증시 뉴스 분석 보고서\n\n'
+            f'{self.analysis}'
         )
 
         return send_to_email(message, subject=f'{yesterday} 미국 증시 뉴스 분석 보고서')
 
     def print_summary(self):
         summary = self.cost_tracker.summary()
-        print('\n💰 LLM 비용 요약')
+        print('\n LLM 비용 요약')
         print(SEPARATOR)
         print(f"- prompt_tokens: {summary['prompt_tokens']}")
         print(f"- completion_tokens: {summary['completion_tokens']}")
@@ -258,10 +272,10 @@ class USMarketNewsAgent:
         print(SEPARATOR)
 
     def run(self):
-        print('🚀 미국 증시 뉴스 분석 Agent 시작...\n')
+        print('미국 증시 뉴스 분석 Agent 시작...\n')
 
         yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
-        print(f'📅 분석 대상: {yesterday}의 미국 증시 뉴스')
+        print(f'분석 대상: {yesterday}의 미국 증시 뉴스')
         print(SEPARATOR)
 
         if not self.fetch_news():

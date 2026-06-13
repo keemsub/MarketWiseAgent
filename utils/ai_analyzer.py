@@ -13,6 +13,9 @@ from utils.security import build_system_prompt
 
 
 def estimate_tokens(text: str) -> int:
+    """
+    사용 토큰 추정 : 영문 기준 약 4글자당 1개로 계산
+    """
     return max(1, len(text) // 4)
 
 
@@ -54,7 +57,7 @@ def _normalize_messages(messages: list[Any]) -> list[dict]:
 
 def request_completion(messages, max_tokens=AI_MAX_TOKENS):
     if not OPENAI_API_KEY:
-        print('❌ OPENAI_API_KEY가 설정되지 않았습니다.')
+        print(' OPENAI_API_KEY가 설정되지 않았습니다.')
         print('   .env 파일에 OPENAI_API_KEY를 설정해주세요.')
         return None
 
@@ -84,7 +87,7 @@ def request_completion(messages, max_tokens=AI_MAX_TOKENS):
             'estimated_tokens': estimate_tokens(' '.join([m['content'] for m in normalized_messages]) + content)
         }
     except Exception as e:
-        print(f'❌ OpenAI API 요청 실패: {e}')
+        print(f'OpenAI API 요청 실패: {e}')
         return None
 
 
@@ -187,10 +190,12 @@ def _build_risk_prompt(system_prompt: str, content_excerpt: str) -> ChatPromptTe
 
 def summarize_news_with_insight(articles):
     if not articles:
-        print('❌ 분석할 뉴스가 없습니다.')
+        print('분석할 뉴스가 없습니다.')
         return None
 
+    # role 부여
     system_prompt = build_system_prompt()
+    # 뉴스 데이터
     news_content = format_articles_for_prompt(articles)
     prompt_value = _build_analysis_prompt(system_prompt, news_content).invoke(
         {
@@ -199,10 +204,10 @@ def summarize_news_with_insight(articles):
         }
     )
     messages = prompt_value.to_messages()
-
+    # llm 호출
     result = request_completion(messages)
     if result and count_major_news_items(result['content']) < 5:
-        print('⚠️ 5개 주요 뉴스가 충분히 생성되지 않았습니다. 다시 요청합니다...')
+        print('5개 주요 뉴스가 충분히 생성되지 않았습니다. 다시 요청합니다...')
         messages.append(HumanMessage(content=(
             '결과에 반드시 5개의 주요 뉴스 항목을 포함하고, 각 항목에 URL을 적어주세요. '
             '현재 5개보다 적습니다. 부족하면 5개까지 즉시 채워주세요.'
@@ -216,7 +221,7 @@ def summarize_news_with_insight(articles):
 
 def assess_risk_and_opportunity(analysis_text):
     if not analysis_text:
-        print('❌ 평가할 분석 텍스트가 없습니다.')
+        print('평가할 분석 텍스트가 없습니다.')
         return None
 
     system_prompt = build_system_prompt()

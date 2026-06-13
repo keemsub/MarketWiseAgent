@@ -14,6 +14,7 @@ from config.settings import (
 
 
 def send_to_email(message_text: str, subject: str = None) -> bool:
+    """Send an email with the provided plain text body and subject."""
     if not GMAIL_EMAIL or not GMAIL_PASSWORD:
         print("⚠️ Gmail 설정이 누락되었습니다. .env 파일에 GMAIL_EMAIL과 GMAIL_PASSWORD를 설정해주세요.")
         return False

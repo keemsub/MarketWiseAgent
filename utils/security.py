@@ -4,6 +4,7 @@
 import re
 from typing import List, Tuple
 
+## 프롬프트 방어 로직
 PROMPT_INJECTION_PATTERNS = [
     r"(?i)ignore (previous|all|above) instructions",
     r"(?i)disregard (previous|all|above) instructions",
