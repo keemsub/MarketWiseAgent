@@ -48,9 +48,6 @@ python3 -m unittest discover -s tests -p 'test_*.py'
 - FAISS를 사용하려면 `requirements.txt`에 있는 `faiss-cpu`와 `numpy`를 설치 필수
 - FAISS 미설치 시 JSON 기반 폴백 동작
 
-
-더 다듬어 포트폴리오용 요약(기술 스택, 스크린샷 포함)으로 만들어 드릴까요?
-
 프로젝트 흐름
 1. `utils/news_fetcher.py`에서 외부 뉴스(웹/API)를 주기적으로 수집
 2. raw를 `utils/ai_analyzer.py`에서 요약/감성/핵심 키워드 추출
